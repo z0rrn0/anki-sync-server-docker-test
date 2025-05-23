@@ -55,5 +55,5 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
           git add ./.github/workflows/build.yml
-          git commit -m "chore(anki-version): bump version to ${{ steps.get-latest.outputs.version }}"
+          git commit -m "BOT Bump version to ${{ steps.get-latest.outputs.version }}"
           git push origin main

@@ -44,10 +44,10 @@ jobs:
           # set output for later use
           echo "version=$tag_name" >> $GITHUB_OUTPUT
 
-      - name: Set new anki-sync-server version in values.yml
+      - name: Set new anki_version
         if: ${{ steps.get-current.outputs.version != steps.get-latest.outputs.version }}
         run: |
-          yq -i '.env.anki_version = "${{ steps.get-latest.outputs.version }}"' ./.github/workflows/build.yml
+          sed -i -E "s/^([[:space:]]*anki_version:[[:space:]]*\")[^\"]*(\")/\1${{ steps.get-latest.outputs.version }}\2/" ./.github/workflows/build.yml
 
       - name: Set up git email/name and commit changes
         if: ${{ steps.get-current.outputs.version != steps.get-latest.outputs.version }}

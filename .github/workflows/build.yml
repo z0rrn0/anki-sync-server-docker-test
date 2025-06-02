@@ -26,9 +26,13 @@ jobs:
         include:
           - os: ubuntu-24.04
             rust_target: x86_64-unknown-linux-gnu
+            c_compiler: gcc g++
+            cargo_linker_env: NOTHING=nothing
             docker_platform: linux-amd64
-          - os: ubuntu-24.04-arm
+          - os: ubuntu-24.04
             rust_target: aarch64-unknown-linux-gnu
+            c_compiler: "gcc-aarch64-linux-gnu g++-aarch64-linux-gnu"
+            cargo_linker_env: CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc
             docker_platform: linux-arm64
 
     steps:
@@ -37,6 +41,11 @@ jobs:
       - uses: arduino/setup-protoc@v3
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install C Compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install ${{ matrix.c_compiler }}
 
       - name: Install Rust
         uses: actions-rust-lang/setup-rust-toolchain@v1
@@ -54,7 +63,8 @@ jobs:
       - name: Build anki-sync-server with release profile
         run: |
           cd ${{ github.workspace }}/ankitects-anki/
-          PROTOC=$(which protoc) \
+          rustup target add ${{ matrix.rust_target }}
+          ${{ matrix.cargo_linker_env }} PROTOC=$(which protoc) \
           RUSTFLAGS='-C target-feature=+crt-static' \
           cargo build --release --target ${{ matrix.rust_target }} --package anki-sync-server
 

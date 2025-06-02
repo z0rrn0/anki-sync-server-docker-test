@@ -34,6 +34,11 @@ jobs:
             c_compiler: "gcc-aarch64-linux-gnu g++-aarch64-linux-gnu"
             cargo_linker_env: CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc
             docker_platform: linux-arm64
+          - os: ubuntu-24.04
+            rust_target: i686-unknown-linux-gnu
+            c_compiler: gcc-i686-linux-gnu g++-i686-linux-gnu
+            cargo_linker_env: CARGO_TARGET_I686_UNKNOWN_LINUX_GNU_LINKER=i686-linux-gnu-gcc
+            docker_platform: linux-386
 
     steps:
       - uses: actions/checkout@v4
@@ -49,8 +54,6 @@ jobs:
 
       - name: Install Rust
         uses: actions-rust-lang/setup-rust-toolchain@v1
-        with:
-          target: ${{ matrix.rust_target }}
 
       - name: Clone ankitects/anki repository
         uses: actions/checkout@v4
@@ -60,6 +63,7 @@ jobs:
           path: ankitects-anki
           submodules: true
 
+      # Install rust target in build directory (idk but otherwise it's not found)
       - name: Build anki-sync-server with release profile
         run: |
           cd ${{ github.workspace }}/ankitects-anki/
@@ -152,6 +156,6 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64,linux/386
           tags: ${{ steps.metadata.outputs.tags }}
           labels: ${{ steps.metadata.outputs.labels }}

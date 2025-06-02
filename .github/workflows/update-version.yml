@@ -10,7 +10,7 @@ jobs:
   update-version:
     name: Update anki version
 
-    runs-on: ubuntu-24.04
+    runs-on: blacksmith-4vcpu-ubuntu-2404
 
     # add GH token to secrets as GH_UPDATE_ANKI
     # with write access to repository

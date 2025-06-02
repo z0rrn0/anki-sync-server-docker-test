@@ -24,22 +24,22 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-24.04
+          - os: blacksmith-4vcpu-ubuntu-2404
             rust_target: x86_64-unknown-linux-gnu
             c_compiler: gcc g++
             cargo_linker_env: NOTHING=nothing
             docker_platform: linux-amd64
-          - os: ubuntu-24.04
+          - os: blacksmith-4vcpu-ubuntu-2404
             rust_target: i686-unknown-linux-gnu
             c_compiler: gcc-i686-linux-gnu g++-i686-linux-gnu
             cargo_linker_env: CARGO_TARGET_I686_UNKNOWN_LINUX_GNU_LINKER=i686-linux-gnu-gcc
             docker_platform: linux-386
-          - os: ubuntu-24.04
+          - os: blacksmith-4vcpu-ubuntu-2404
             rust_target: aarch64-unknown-linux-gnu
             c_compiler: gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
             cargo_linker_env: CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc
             docker_platform: linux-arm64
-          - os: ubuntu-24.04
+          - os: blacksmith-4vcpu-ubuntu-2404
             rust_target: armv7-unknown-linux-gnueabihf
             c_compiler: gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf
             cargo_linker_env: CARGO_TARGET_ARMV7_UNKNOWN_LINUX_GNUEABIHF_LINKER=arm-linux-gnueabihf-gcc
@@ -89,7 +89,7 @@ jobs:
     name: "Build and push Docker image"
     needs: [build-packages]
 
-    runs-on: ubuntu-24.04
+    runs-on: blacksmith-4vcpu-ubuntu-2404
 
     permissions:
       packages: write

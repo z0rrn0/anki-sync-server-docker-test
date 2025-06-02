@@ -43,7 +43,7 @@ jobs:
             rust_target: armv7-unknown-linux-gnueabihf
             c_compiler: gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf
             cargo_linker_env: CARGO_TARGET_ARMV7_UNKNOWN_LINUX_GNUEABIHF_LINKER=arm-linux-gnueabihf-gcc
-            docker_platform: linux-arm-v7
+            docker_platform: linux-armv7
 
     steps:
       - uses: actions/checkout@v4
